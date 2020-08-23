@@ -77,3 +77,7 @@ require './lib/game'
 
   game = Game.new(player1, player2)
   game.start
+
+
+# Some errors I'd like to fix:
+# Running into issues when player starts a turn with 1 or 2 cards
