@@ -9,7 +9,8 @@ attr_reader :player1, :player2, :spoils_of_war
 
   def type
     if (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0)) && (player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2))
-      return :mutually_assured_destruction
+      #Need to come up with solution when player doesn't have enough cards
+        return :mutually_assured_destruction
 
     elsif (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0))
       return :war
@@ -65,8 +66,12 @@ attr_reader :player1, :player2, :spoils_of_war
   end
 
   def award_spoils(winner)
-    spoils_of_war.each do |card|
-      winner.deck.add_card(card)
+    if winner == "No Winner"
+      return "There are no cards."
+    else
+      spoils_of_war.each do |card|
+        winner.deck.add_card(card)
+      end
     end
   end
 end

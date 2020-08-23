@@ -1,3 +1,3 @@
 ## War or Peace
-
-This is the starter repo for the BE Mod1 **War or Peace** project.
+Project Submission for Shaunda Cunningham
+Backend 2008 - Mod 1
