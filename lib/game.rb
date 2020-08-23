@@ -1,14 +1,10 @@
-require './lib/card'
-require './lib/deck'
-require './lib/player'
-require './lib/turn'
-
 class Game
-  attr_accessor :turn_count
+  attr_reader :turn_count, :player1, :player2
 
-  def initialize
-    @turn_count = 0
-    
+  def initialize(player1, player2)
+    @turn_count = 1
+    @player1    = player1
+    @player2    = player2
   end
 
   def welcome_message
@@ -18,27 +14,48 @@ class Game
     p "------------------------------------------------------------------"
   end
 
-  def start
-    @game.welcome_message
-    if gets.chomp.upcase == "GO"
-      self.run
+  def turn_message(turn)
+    case turn.type
+    when :basic
+      p "Turn #{@turn_count}: #{turn.winner.name} won 2 cards"
 
-    else
-      p "Try typing 'GO' to play!"
+    when :war
+      p "Turn #{@turn_count}: WAR - #{turn.winner.name} won 6 cards"
+
+    when :mutually_assured_destruction
+      p "Turn #{@turn_count}: *mutually assured destruction* 6 cards removed from play"
     end
   end
 
   def run
-    while turn_count < 1000000
+
+    while @player1.deck.cards != [] || @player2.deck.cards != [] do
+      @turn = Turn.new(@player1, @player2)
+      @turn.pile_cards
+
+      unless turn.type :mutually_assured_destruction do
+        @turn.award_spoils(@turn.winner)
+      end 
+      turn_message(@turn)
       @turn_count += 1
 
-      if turn.type == :basic
-        p "Turn #{turn_count}: #{turn.winner} won 2 cards"
-      elsif turn.type == :war
-        p "WAR - #{turn.winner} won 6 cards"
-      else
-        p "*mutually assured destruction* 6 cards removed from play"
+        if @turn_count == 1000000
+          p "---- DRAW ----"
+          break
+        end
       end
+      p "*~*~*~* #{turn.winner.name} has won the game! *~*~*~*"
+      #what if mad turn?
+    end
+
+
+  def start
+    welcome_message
+    if gets.chomp.upcase == "GO"
+      run
+
+    else
+      p "See you next time!"
     end
   end
 end
