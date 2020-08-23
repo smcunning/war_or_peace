@@ -32,10 +32,7 @@ class Game
     while @player1.deck.cards != [] || @player2.deck.cards != [] do
       @turn = Turn.new(@player1, @player2)
       @turn.pile_cards
-
-      unless turn.type :mutually_assured_destruction do
-        @turn.award_spoils(@turn.winner)
-      end 
+      @turn.award_spoils(@turn.winner)
       turn_message(@turn)
       @turn_count += 1
 
@@ -45,8 +42,7 @@ class Game
         end
       end
       p "*~*~*~* #{turn.winner.name} has won the game! *~*~*~*"
-      #what if mad turn?
-    end
+  end
 
 
   def start
